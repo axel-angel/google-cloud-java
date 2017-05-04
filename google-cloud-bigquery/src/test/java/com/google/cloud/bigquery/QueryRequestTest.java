@@ -40,6 +40,7 @@ public class QueryRequestTest {
   private static final Long PAGE_SIZE = 42L;
   private static final Long MAX_WAIT_TIME = 42000L;
   private static final Boolean USE_LEGACY_SQL = false;
+  private static final Integer MAXIMUM_BILLING_TIER = 1;
   private static final String QUERY_PARAMETER_NAME = "paramName";
   private static final QueryParameterValue QUERY_PARAMETER_VALUE = QueryParameterValue.int64(7);
   private static final List<QueryParameterValue> POSITIONAL_PARAMETERS =
@@ -51,6 +52,7 @@ public class QueryRequestTest {
       .setPageSize(PAGE_SIZE)
       .setMaxWaitTime(MAX_WAIT_TIME)
       .setUseLegacySql(USE_LEGACY_SQL)
+      .setMaximumBillingTier(MAXIMUM_BILLING_TIER)
       .setPositionalParameters(POSITIONAL_PARAMETERS)
       .build();
 
@@ -86,6 +88,7 @@ public class QueryRequestTest {
     assertEquals(QUERY_PARAMETER_VALUE, QUERY_REQUEST.getPositionalParameters().get(0));
     assertTrue(QUERY_REQUEST.getNamedParameters().isEmpty());
     assertFalse(QUERY_REQUEST.useLegacySql());
+    assertEquals(1, QUERY_REQUEST.maximumBillingtier())
     thrown.expect(NullPointerException.class);
     QueryRequest.newBuilder(null);
   }
@@ -143,6 +146,7 @@ public class QueryRequestTest {
     assertNull(request.getPageSize());
     assertNull(request.getMaxWaitTime());
     assertNull(request.useLegacySql());
+    assertNull(request.maximumBillingtier())
     assertNotNull(request.getPositionalParameters());
     assertTrue(request.getPositionalParameters().isEmpty());
     assertNotNull(request.getNamedParameters());
@@ -183,6 +187,7 @@ public class QueryRequestTest {
     assertEquals(expected.getPageSize(), value.getPageSize());
     assertEquals(expected.getMaxWaitTime(), value.getMaxWaitTime());
     assertEquals(expected.useLegacySql(), value.useLegacySql());
+    assertEquals(expected.maximumBillingTier(), value.maximumBillingTier());
     assertArrayEquals(expected.getPositionalParameters().toArray(new QueryParameterValue[0]),
         value.getPositionalParameters().toArray(new QueryParameterValue[0]));
     assertEquals(expected.getNamedParameters().size(), value.getNamedParameters().size());

@@ -83,6 +83,7 @@ public final class QueryRequest implements Serializable {
   private final Boolean dryRun;
   private final Boolean useQueryCache;
   private final Boolean useLegacySql;
+  private final Integer maximumBillingTier;
 
   public static final class Builder {
 
@@ -95,6 +96,7 @@ public final class QueryRequest implements Serializable {
     private Boolean dryRun;
     private Boolean useQueryCache;
     private Boolean useLegacySql;
+    private Integer maximumBillingTier;
 
     private Builder() {}
 
@@ -267,6 +269,16 @@ public final class QueryRequest implements Serializable {
       return this;
     }
 
+    /**
+     * Sets maximum billing tire for query <a href="https://cloud.google.com/bigquery/pricing/">
+     * Pricing</a>. This property is experimental and
+     * might be subject to change.
+     */
+    public Builder setMaximumBillingTier(Integer maximumBillingTier) {
+      this.maximumBillingTier = maximumBillingTier;
+      return this;
+    }
+
     public QueryRequest build() {
       return new QueryRequest(this);
     }
@@ -290,6 +302,7 @@ public final class QueryRequest implements Serializable {
     dryRun = builder.dryRun;
     useQueryCache = builder.useQueryCache;
     useLegacySql = builder.useLegacySql;
+    maximumBillingTier = builder.maximumBillingTier;
   }
 
 
@@ -370,9 +383,9 @@ public final class QueryRequest implements Serializable {
    * Standard SQL</a>. If not set, legacy SQL dialect is used. This property is experimental and
    * might be subject to change.
    */
-  public Boolean useLegacySql() {
-    return useLegacySql;
-  }
+  public Boolean useLegacySql() { return useLegacySql; }
+
+  public Integer maximumBillingTier() { return maximumBillingTier; }
 
   /**
    * Returns a builder for the {@code QueryRequest} object.
@@ -387,7 +400,8 @@ public final class QueryRequest implements Serializable {
         .setMaxWaitTime(maxWaitTime)
         .setDryRun(dryRun)
         .setUseQueryCache(useQueryCache)
-        .setUseLegacySql(useLegacySql);
+        .setUseLegacySql(useLegacySql)
+        .setMaximumBillingTier(maximumBillingTier);
   }
 
   @Override
@@ -402,6 +416,7 @@ public final class QueryRequest implements Serializable {
         .add("dryRun", dryRun)
         .add("useQueryCache", useQueryCache)
         .add("useLegacySql", useLegacySql)
+        .add("maximumBillingTier", maximumBillingTier)
         .toString();
   }
 
@@ -416,7 +431,8 @@ public final class QueryRequest implements Serializable {
         maxWaitTime,
         dryRun,
         useQueryCache,
-        useLegacySql);
+        useLegacySql,
+        maximumBillingTier);
   }
 
   @Override
@@ -463,6 +479,9 @@ public final class QueryRequest implements Serializable {
     }
     if (useLegacySql != null) {
       queryRequestPb.setUseLegacySql(useLegacySql);
+    }
+    if (maximumBillingTier != null) {
+      queryRequestPb.setMaximumBillingTier(maximumBillingTier);
     }
     return queryRequestPb;
   }
@@ -516,6 +535,9 @@ public final class QueryRequest implements Serializable {
     }
     if (queryRequestPb.getUseLegacySql() != null) {
       builder.setUseLegacySql(queryRequestPb.getUseLegacySql());
+    }
+    if (queryRequestPb.getMaximumBillingTier() != null) {
+      builder.setMaximumBillingTier(queryRequestPb.getMaximumBillingTier());
     }
     return builder.build();
   }
